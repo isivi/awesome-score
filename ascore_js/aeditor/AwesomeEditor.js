@@ -25,6 +25,9 @@ export default class App extends Component {
       code: newCode
     });
   }
+  submitCode(event) {
+
+  }
   render() {
     const options = {
       mode: 'javascript',
@@ -37,11 +40,17 @@ export default class App extends Component {
       gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter']
     };
     return (
-      <CodeMirror
-        value={this.state.code}
-        onChange={this.updateCode.bind(this)}
-        options={options}
-      />
+      <div >
+        <CodeMirror
+          value={this.state.code}
+          onChange={this.updateCode.bind(this)}
+          options={options}
+        />
+
+
+
+        <button onClick={this.submitCode.bind(this)}>Submit</button>
+      </div>
     );
   }
 }
