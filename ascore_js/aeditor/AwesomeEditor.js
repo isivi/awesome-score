@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import CodeMirror from 'react-codemirror';
-import initialCode from './initial-code';
 import 'codemirror/mode/javascript/javascript';
+
+import './AwesomeEditor.less';
+import executeCode from './execute-code';
+import initialCode from './initial-code';
 
 // Theme
 import 'codemirror/lib/codemirror.css';
@@ -15,7 +18,7 @@ import 'codemirror/addon/fold/foldgutter.css';
 import 'codemirror/addon/fold/brace-fold';
 
 
-export default class App extends Component {
+export default class AwesomeEditor extends Component {
   static propTypes = {};
   state = {
     code: initialCode
@@ -25,8 +28,11 @@ export default class App extends Component {
       code: newCode
     });
   }
-  submitCode(event) {
-
+  submitCode() {
+    executeCode(this.state.code, this.showNewMessage.bind(this));
+  }
+  showNewMessage(messageData) {
+    console.log(messageData);
   }
   render() {
     const options = {
@@ -40,14 +46,12 @@ export default class App extends Component {
       gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter']
     };
     return (
-      <div >
+      <div className="AwesomeEditor-component">
         <CodeMirror
           value={this.state.code}
           onChange={this.updateCode.bind(this)}
           options={options}
         />
-
-
 
         <button onClick={this.submitCode.bind(this)}>Submit</button>
       </div>
