@@ -1,12 +1,33 @@
 {% load render_bundle from webpack_loader %}
+{% load static %}
 <!DOCTYPE html>
 <html>
     <head>
         <meta charset="UTF-8">
         <title>Awesome Score</title>
+        <link type="text/less" href="{% static "ascore_app/css/base.less" %}" rel="stylesheet">
+        <script type="text/javascript" src="{% static "ascore_app/js/less.js" %}"></script>
     </head>
     <body>
-        <div id="aeditor-root"></div>
-        {% render_bundle 'aeditor' %}
+        <div id="idea-block">
+            <div class="web">
+                <span>Kiedy ostatnio miałeś<br/>na coś realny wpływ?</span>
+            </div>
+        </div>
+        <div id="laptop-block">
+            <div id="aeditor-root"></div>
+            {% render_bundle 'aeditor' %}
+        <div>
+        <div id="congrats-block">
+            Gratulacje/Rób to na co dzień!<br/>
+            (szukamy, wpisz to skontaktujemy się)
+        </div>
+        <div id="email-block">
+            <form>
+                <input type="text"></input>
+                <button>Prześlij</button>
+            </form>
+            lub napisz wiadomość aaa@isivi.pl
+        </div>
     </body>
 </html>
