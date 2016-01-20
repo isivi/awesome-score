@@ -1,2 +1,2 @@
-# itrecruitment
-Page with programming task for IT candidates
+# awesome-score
+Write job awesomeness score to help people find most fantastic jobs
