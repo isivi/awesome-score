@@ -14,14 +14,16 @@ baseConfig.module.loaders.push(
   // CSS
   {
     test: /\.css$/,
-    loader: 'style!css',
+    loader: 'style!css'
+    // As for now importing also style of any external module, uncomment to change it
     //include: path.join(baseDir, 'ascore_js'),
   },
 
   // LESS
   {
     test: /\.less$/,
-    loader: 'style!css!less',
+    loader: 'style!css!less'
+    // As for now importing also style of any external module, uncomment to change it
     //include: path.join(baseDir, 'ascore_js'),
   }
 );

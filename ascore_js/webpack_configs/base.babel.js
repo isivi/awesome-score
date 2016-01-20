@@ -5,13 +5,12 @@ var baseDir = path.join(__dirname, '../', '../');
 
 module.exports = {
   entry: {
-    'aeditor': [path.join(baseDir, './ascore_js/aeditor/client')],
-    'graphiql': [path.join(baseDir, './ascore_js/graphiql/client')]
+    'aeditor': [path.join(baseDir, './ascore_js/aeditor/client')]
   },
 
   output: {
     path: path.join(baseDir, 'public/static/bundles/'),
-    filename: '[name]-[hash].js',
+    filename: '[name]-[hash].js'
     // publicPath set in inheriting files
   },
 
@@ -22,7 +21,7 @@ module.exports = {
         test: /\.js$/,
         exclude: /node_modules/,
         loader: 'babel',
-        include: path.join(baseDir, 'ascore_js'),
+        include: path.join(baseDir, 'ascore_js')
       }
     ]
   },

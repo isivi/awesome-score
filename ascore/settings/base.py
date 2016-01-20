@@ -22,6 +22,10 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'webpack_loader',
+
+    'ascore.ascore_app',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -78,3 +82,19 @@ USE_TZ = True
 STATIC_ROOT = os.path.join(BASE_DIR, 'public', 'static')
 
 STATIC_URL = '/static/'
+
+
+WEBPACK_LOADER = {
+    'DEFAULT': {
+        'BUNDLE_DIR_NAME': os.path.join(STATIC_ROOT, 'bundle'),
+        'STATS_FILE': os.path.join(BASE_DIR, 'var/webpack_stats/', 'dev.json'),
+        'IGNORE': ['.+\.hot-update.js', '.+\.map']
+    },
+}
+
+WEBPACK_LOADER_PROD = {
+    'DEFAULT': {
+        'STATS_FILE': os.path.join(BASE_DIR, 'var/webpack_stats/', 'prod.json'),
+    }
+}
+

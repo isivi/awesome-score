@@ -3,7 +3,7 @@
     "clean": "rimraf public/static/bundles/",
     "build-prod": "NODE_ENV=production webpack --config ascore_js/webpack_configs/prod.babel.js",
     "build": "webpack --config ascore_js/webpack_configs/dev.babel.js",
-    "start": "node webpack-dev-server.js",
+    "start": "node ./webpack-dev-server.js --config ascore_js/webpack_configs/dev.babel.js",
     "lint": "eslint ascore_js"
   },
   "dependencies": {
