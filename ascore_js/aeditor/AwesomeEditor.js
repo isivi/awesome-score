@@ -5,9 +5,11 @@ import 'codemirror/mode/javascript/javascript';
 import Message from './Message';
 import './AwesomeEditor.less';
 import executeCode from './execute-code';
+import combineTexts from './combine-texts';
 
 // Require without any module loading, nor executing
 const initialCode = require('!!raw!./initial-code.js');
+const finalCode = require('!!raw!./final-code.txt');
 
 // Theme
 import 'codemirror/lib/codemirror.css';
@@ -25,34 +27,48 @@ export default class AwesomeEditor extends Component {
   static propTypes = {};
   state = {
     code: initialCode,
+    successCode: '',
     ready: false,
     success: false,
     message: '',
     messageVisible: false
   };
+
   updateCode(newCode) {
     this.setState({
       code: newCode
     });
   }
   submitCode() {
-    this.showProcessMessage();
-    setTimeout(() => {
-      executeCode(this.state.code, this.showNewMessage.bind(this));
-    }, 500);
+    if (!this.state.success) {
+      this.showProcessMessage();
+      setTimeout(
+        () => {
+          executeCode(this.state.code, this.handleExecution.bind(this));
+        }, 500);
+    }
   }
-  showProcessMessage(){
+  handleExecution(executionResult) {
+    this.showResultMessage(executionResult);
+
+    if (executionResult.success) {
+      this.setState({ successCode: this.state.code });
+      this.animateEditorCoverage();
+      this.triggerSuccessEvent();
+    }
+  }
+
+  showProcessMessage() {
     this.setState({
       ready: false,
       messageVisible: true,
       message: 'Processing...'
     });
   }
-  showNewMessage(executionResult) {
+  showResultMessage(executionResult) {
     let message;
     if (executionResult.success) {
       message = 'Well done';
-      this.triggerSuccessEvent();
     } else {
       message = `${executionResult.errorName}: ${executionResult.errorMessage}`;
     }
@@ -66,10 +82,37 @@ export default class AwesomeEditor extends Component {
   closeMessage() {
     this.setState({ messageVisible: false });
   }
+
   triggerSuccessEvent() {
     this.refs.componentNode.dispatchEvent(
       new Event('execute', { bubbles: true })
     );
+  }
+  animateEditorCoverage() {
+    let intervalsCounter = 0;
+    let intervalID;
+    const interval = 50;
+    const totalAnimationTime = 2400;
+    const { successCode } = this.state;
+    const { orig, upd } = combineTexts({ orig: successCode, upd: finalCode });
+    const newFinalCode = upd;
+    const newSuccessCode = orig;
+
+    function animate() {
+      intervalsCounter++;
+      const elapsedTime = intervalsCounter * interval;
+      const border = newFinalCode.length * elapsedTime / totalAnimationTime;
+      this.setState({
+        code: newFinalCode.substr(0, border) + newSuccessCode.substr(border)
+
+      });
+      if (elapsedTime >= totalAnimationTime) {
+        this.setState({ code: newFinalCode });
+        clearInterval(intervalID);
+      }
+    }
+
+    intervalID = setInterval(animate.bind(this), interval);
   }
 
   render() {
@@ -81,7 +124,8 @@ export default class AwesomeEditor extends Component {
       lineWrapping: true,
 
       foldGutter: true,
-      gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter']
+      gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter'],
+      readOnly: this.state.success
     };
     return (
       <div className="AwesomeEditor-component" ref="componentNode">
