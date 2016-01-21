@@ -5,7 +5,9 @@ import 'codemirror/mode/javascript/javascript';
 import Message from './Message';
 import './AwesomeEditor.less';
 import executeCode from './execute-code';
-import initialCode from './initial-code';
+
+// Require without any module loading, nor executing
+const initialCode = require('!!raw!./initial-code.js');
 
 // Theme
 import 'codemirror/lib/codemirror.css';
@@ -50,6 +52,7 @@ export default class AwesomeEditor extends Component {
     let message;
     if (executionResult.success) {
       message = 'Well done';
+      this.triggerSuccessEvent();
     } else {
       message = `${executionResult.errorName}: ${executionResult.errorMessage}`;
     }
@@ -62,6 +65,11 @@ export default class AwesomeEditor extends Component {
   }
   closeMessage() {
     this.setState({ messageVisible: false });
+  }
+  triggerSuccessEvent() {
+    this.refs.componentNode.dispatchEvent(
+      new Event('execute', { bubbles: true })
+    );
   }
 
   render() {
@@ -76,7 +84,7 @@ export default class AwesomeEditor extends Component {
       gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter']
     };
     return (
-      <div className="AwesomeEditor-component">
+      <div className="AwesomeEditor-component" ref="componentNode">
         <CodeMirror
           value={this.state.code}
           onChange={this.updateCode.bind(this)}
@@ -87,7 +95,8 @@ export default class AwesomeEditor extends Component {
           visible={this.state.messageVisible}
           ready={this.state.ready}
           success={this.state.success}
-          message={this.state.message} />
+          message={this.state.message}
+        />
         <button onClick={this.submitCode.bind(this)}>Submit</button>
       </div>
     );

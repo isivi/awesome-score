@@ -1,6 +1,10 @@
 import { transform as babelTransform } from 'babel-standalone';
 
-const testCases = [0, 1 ,2];
+// Process module normally but then return it raw, not executed
+const testsCodeRawES5 = require('raw!./tests-code.js');
+
+
+// TODO(TG): those vars and funcs matches best to be packed into a class
 
 const iframe = document.createElement('iframe');
 iframe.sandbox = ['allow-scripts'];
@@ -18,15 +22,15 @@ function receiveMessage(event) {
   }
 
   const eventBody = eventData.body;
-  callbacks[eventBody.callbackID](eventBody);
+  (callbacks[eventBody.callbackID] || (() => {}))(eventBody);
 }
 window.addEventListener('message', receiveMessage.bind(this), false);
 
 
 export default function executeCode(codeRaw, callback) {
-  let codeES5;
+  let codeRawES5;
   try {
-    codeES5 = babelTransform(codeRaw, { presets: ['es2015'] }).code;
+    codeRawES5 = babelTransform(codeRaw, { presets: ['es2015'] }).code;
   } catch (err) {
     return callback({
       success: false,
@@ -38,7 +42,8 @@ export default function executeCode(codeRaw, callback) {
   const wrappedCode = `
     var caughtError = null;
     try {
-      ${codeES5}
+      ${codeRawES5}
+      ${testsCodeRawES5}
     } catch(err) {
       caughtError = err;
     }
@@ -56,7 +61,5 @@ export default function executeCode(codeRaw, callback) {
 
   iframe.srcdoc = `<script type="text/javascript">${wrappedCode}</script>`;
 
-  //for(let testCase in testCases) {
-  //}
 }
 
