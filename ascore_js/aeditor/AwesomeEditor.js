@@ -4,12 +4,13 @@ import 'codemirror/mode/javascript/javascript';
 
 import Message from './Message';
 import './AwesomeEditor.less';
+import CodeAnimation from './CodeAnimation';
 import executeCode from './execute-code';
-import combineTexts from './combine-texts';
+import normalizeTexts from './normalize-texts';
 
 // Require without any module loading, nor executing
-const initialCode = require('!!raw!./initial-code.js');
-const finalCode = require('!!raw!./final-code.txt');
+const initialCodeConst = require('!!raw!./initial-code.js');
+const finalCodeConst = require('!!raw!./final-code.txt');
 
 // Theme
 import 'codemirror/lib/codemirror.css';
@@ -26,7 +27,7 @@ import 'codemirror/addon/fold/brace-fold';
 export default class AwesomeEditor extends Component {
   static propTypes = {};
   state = {
-    code: initialCode,
+    code: initialCodeConst,
     successCode: '',
     ready: false,
     success: false,
@@ -46,6 +47,8 @@ export default class AwesomeEditor extends Component {
         () => {
           executeCode(this.state.code, this.handleExecution.bind(this));
         }, 500);
+    } else {
+      this.triggerSuccessEvent();
     }
   }
   handleExecution(executionResult) {
@@ -88,32 +91,17 @@ export default class AwesomeEditor extends Component {
       new Event('execute', { bubbles: true })
     );
   }
-  animateEditorCoverage() {
-    let intervalsCounter = 0;
-    let intervalID;
-    const interval = 50;
-    const totalAnimationTime = 2400;
-    const { successCode } = this.state;
-    const { orig, upd } = combineTexts({ orig: successCode, upd: finalCode });
-    const newFinalCode = upd;
-    const newSuccessCode = orig;
-
-    function animate() {
-      intervalsCounter++;
-      const elapsedTime = intervalsCounter * interval;
-      const border = newFinalCode.length * elapsedTime / totalAnimationTime;
-      this.setState({
-        code: newFinalCode.substr(0, border) + newSuccessCode.substr(border)
-
-      });
-      if (elapsedTime >= totalAnimationTime) {
-        this.setState({ code: newFinalCode });
-        clearInterval(intervalID);
-      }
-    }
-
-    intervalID = setInterval(animate.bind(this), interval);
+  normalizeCodeBeforeAnimation() {
+    const { text1: successCode, text2: finalCode } = normalizeTexts({
+      text1: this.state.successCode, text2: finalCodeConst
+    });
+    this.setState({ successCode, finalCode });
   }
+  animateEditorCoverage() {
+    this.normalizeCodeBeforeAnimation();
+    new CodeAnimation(this.updateCode.bind(this), this.state).start();
+  }
+
 
   render() {
     const options = {
@@ -146,3 +134,4 @@ export default class AwesomeEditor extends Component {
     );
   }
 }
+
