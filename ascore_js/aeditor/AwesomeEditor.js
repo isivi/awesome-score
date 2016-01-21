@@ -8,8 +8,8 @@ import executeCode from './execute-code';
 import combineTexts from './combine-texts';
 
 // Require without any module loading, nor executing
-const initialCode = require('!!raw!./initial-code.js');
-const finalCode = require('!!raw!./final-code.txt');
+const initialCodeConst = require('!!raw!./initial-code.js');
+const finalCodeConst = require('!!raw!./final-code.txt');
 
 // Theme
 import 'codemirror/lib/codemirror.css';
@@ -26,7 +26,7 @@ import 'codemirror/addon/fold/brace-fold';
 export default class AwesomeEditor extends Component {
   static propTypes = {};
   state = {
-    code: initialCode,
+    code: initialCodeConst,
     successCode: '',
     ready: false,
     success: false,
@@ -46,6 +46,8 @@ export default class AwesomeEditor extends Component {
         () => {
           executeCode(this.state.code, this.handleExecution.bind(this));
         }, 500);
+    } else {
+      this.triggerSuccessEvent();
     }
   }
   handleExecution(executionResult) {
@@ -88,32 +90,17 @@ export default class AwesomeEditor extends Component {
       new Event('execute', { bubbles: true })
     );
   }
-  animateEditorCoverage() {
-    let intervalsCounter = 0;
-    let intervalID;
-    const interval = 50;
-    const totalAnimationTime = 2400;
-    const { successCode } = this.state;
-    const { orig, upd } = combineTexts({ orig: successCode, upd: finalCode });
-    const newFinalCode = upd;
-    const newSuccessCode = orig;
-
-    function animate() {
-      intervalsCounter++;
-      const elapsedTime = intervalsCounter * interval;
-      const border = newFinalCode.length * elapsedTime / totalAnimationTime;
-      this.setState({
-        code: newFinalCode.substr(0, border) + newSuccessCode.substr(border)
-
-      });
-      if (elapsedTime >= totalAnimationTime) {
-        this.setState({ code: newFinalCode });
-        clearInterval(intervalID);
-      }
-    }
-
-    intervalID = setInterval(animate.bind(this), interval);
+  normalizeCodeBeforeAnimation() {
+    const { orig: successCode, upd: finalCode } = combineTexts({ orig: successCode, upd: finalCodeConst });
+    this.setState({ successCode, finalCode });
   }
+  animateEditorCoverage() {
+    this.normalizeCodeBeforeAnimation();
+
+    let animation = new Animation(this.updateCode.bind(this), this.state);
+    animation.start();
+  }
+
 
   render() {
     const options = {
@@ -144,5 +131,44 @@ export default class AwesomeEditor extends Component {
         <button onClick={this.submitCode.bind(this)}>Submit</button>
       </div>
     );
+  }
+}
+
+
+class Animation extends Object {
+  totalAnimationTime = 2400;
+  intervalsCounter = 50;
+  interval = null;
+  intervalID = null;
+  creator = null;
+  code = null;
+
+  construct(updateCode, { successCode, finalCode }){
+    this.updateCode = updateCode;
+    this.interval = interval;
+    this.code = {success: successCode, final: finalCode}
+  }
+
+  start(){
+    this.intervalID = setInterval(this.tick.bind(this), this.interval);
+  }
+
+  tick() {
+    this.intervalsCounter++;
+    const elapsedTime = this.intervalsCounter * this.interval;
+    const border = this.code.final.length * elapsedTime / this.totalAnimationTime;
+
+    if (elapsedTime >= this.totalAnimationTime) {
+      this.stop();
+    } else {
+      this.creator.updateCode(
+        this.code.final.substr(0, border) + this.code.success.substr(border)
+      );
+    }
+  }
+
+  stop() {
+    this.updateCode(this.code.finalCode);
+    clearInterval(this.intervalID);
   }
 }
