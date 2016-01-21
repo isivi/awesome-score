@@ -5,29 +5,40 @@
     <head>
         <meta charset="UTF-8">
         <title>Awesome Score</title>
+        <link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,600&subset=latin,latin-ext' rel='stylesheet' type='text/css' />
         <link type="text/less" href="{% static "ascore_app/css/base.less" %}" rel="stylesheet">
         <script type="text/javascript" src="{% static "ascore_app/js/less.js" %}"></script>
     </head>
     <body>
         <div id="idea-block">
             <div class="web">
-                <span>Kiedy ostatnio miałeś<br/>na coś realny wpływ?</span>
+                <div class="text">Kiedy ostatnio miałeś<br/>na coś <span>realny wpływ?</span></div>
             </div>
         </div>
         <div id="laptop-block">
-            <div id="aeditor-root"></div>
-            {% render_bundle 'aeditor' %}
+            <div id="laptop-background">
+                <div id="aeditor-root"></div>
+                {% render_bundle 'aeditor' %}
+            </div>
         <div>
         <div id="congrats-block">
-            Gratulacje/Rób to na co dzień!<br/>
-            (szukamy, wpisz to skontaktujemy się)
+            <span class="text1">Gratulacje/Rób to na co dzień!</span><br/>
+            <span class="text2">(szukamy, wpisz to skontaktujemy się)</span>
         </div>
         <div id="email-block">
             <form>
-                <input type="text"></input>
-                <button>Prześlij</button>
+                <input type="text" placeholder="Wpisz adres email..."></input>
+                <button>PRZEŚLIJ</button>
             </form>
-            lub napisz wiadomość aaa@isivi.pl
+            <div class="email-text">
+                lub napisz wiadomość
+                <a href="mailto:aaa@isivi.pl?Subject=Hello%20isivi" target="_top">aaa@isivi.pl</a>
+            </div>
+        </div>
+        <div id="footer">
+            <div id="footer-wrapper">
+                &copy; ISIVI 2016
+            </div>
         </div>
     </body>
 </html>
