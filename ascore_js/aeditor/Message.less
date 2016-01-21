@@ -1,0 +1,30 @@
+.Message-component {
+  margin: 10px;
+  padding: 10px;
+  background: lightgray;
+  width: 70%;
+  float: left;
+
+  &.success {
+    background: palegreen;
+  }
+
+  &.error {
+    background: orange;
+  }
+
+  .relative-container {
+    position: relative;
+
+    .close {
+      position: absolute;
+      top: -5px;
+      right: 1px;
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+
+}
