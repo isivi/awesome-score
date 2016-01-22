@@ -10,7 +10,7 @@ SECRET_KEY = '^a%w=!-az5#)pw#$(qfujdta8u=^0&%759+_l+hp)$n#o%r#5_'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', 'isivi.pl']
 
 
 # Application definition

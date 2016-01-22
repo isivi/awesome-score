@@ -3,10 +3,10 @@ import CodeMirror from 'react-codemirror';
 import 'codemirror/mode/javascript/javascript';
 
 import Message from './Message';
-import './AwesomeEditor.less';
 import CodeAnimation from './CodeAnimation';
-import executeCode from './execute-code';
+import CodeExecutor from './CodeExecutor';
 import normalizeTexts from './normalize-texts';
+import './AwesomeEditor.less';
 
 // Require without any module loading, nor executing
 const initialCodeConst = require('!!raw!./initial-code.js');
@@ -27,13 +27,16 @@ import 'codemirror/addon/fold/brace-fold';
 export default class AwesomeEditor extends Component {
   static propTypes = {};
   state = {
-    code: initialCodeConst,
-    successCode: '',
-    ready: false,
+    executing: false,
     success: false,
-    message: '',
+
+    code: initialCodeConst,
+    successCode: null,
+
+    message: null,
     messageVisible: false
   };
+  executingDelay = 400;
 
   updateCode(newCode) {
     this.setState({
@@ -42,28 +45,27 @@ export default class AwesomeEditor extends Component {
   }
   submitCode() {
     if (!this.state.success) {
-      this.showProcessMessage();
+      this.showExecutingMessage();
       setTimeout(
         () => {
-          executeCode(this.state.code, this.handleExecution.bind(this));
-        }, 500);
-    } else {
-      this.triggerSuccessEvent();
+          new CodeExecutor(this.state.code, this.handleExecution.bind(this)).execute();
+        }, this.executingDelay);
     }
   }
   handleExecution(executionResult) {
-    this.showResultMessage(executionResult);
+    const success = executionResult.success;
 
-    if (executionResult.success) {
-      this.setState({ successCode: this.state.code });
-      this.animateEditorCoverage();
+    if (success) {
+      this.setState({ success, successCode: this.state.code });
+      this.animateSuccess();
       this.triggerSuccessEvent();
     }
+    this.showResultMessage(executionResult);
   }
 
-  showProcessMessage() {
+  showExecutingMessage() {
     this.setState({
-      ready: false,
+      executing: true,
       messageVisible: true,
       message: 'Processing...'
     });
@@ -76,8 +78,7 @@ export default class AwesomeEditor extends Component {
       message = `${executionResult.errorName}: ${executionResult.errorMessage}`;
     }
     this.setState({
-      ready: true,
-      success: executionResult.success,
+      executing: false,
       messageVisible: true,
       message
     });
@@ -87,6 +88,7 @@ export default class AwesomeEditor extends Component {
   }
 
   triggerSuccessEvent() {
+    //noinspection JSUnresolvedVariable
     this.refs.componentNode.dispatchEvent(
       new Event('execute', { bubbles: true })
     );
@@ -97,7 +99,7 @@ export default class AwesomeEditor extends Component {
     });
     this.setState({ successCode, finalCode });
   }
-  animateEditorCoverage() {
+  animateSuccess() {
     this.normalizeCodeBeforeAnimation();
     new CodeAnimation(this.updateCode.bind(this), this.state).start();
   }
@@ -105,7 +107,7 @@ export default class AwesomeEditor extends Component {
 
   render() {
     const options = {
-      mode: 'javascript',
+      mode: this.state.success ? 'text/plain' : 'javascript',
       theme: 'dracula',
 
       lineNumbers: false,
@@ -125,7 +127,7 @@ export default class AwesomeEditor extends Component {
         <Message
           handleClose={this.closeMessage.bind(this)}
           visible={this.state.messageVisible}
-          ready={this.state.ready}
+          ready={!this.state.executing}
           success={this.state.success}
           message={this.state.message}
         />
@@ -134,4 +136,3 @@ export default class AwesomeEditor extends Component {
     );
   }
 }
-
