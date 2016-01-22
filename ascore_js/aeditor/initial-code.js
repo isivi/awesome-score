@@ -1,4 +1,4 @@
-// Help people find the most fantastic job!
+// Help people find their dream jobs!
 
 function jobAwesomenessScore(jobAttrs) {
   /**
