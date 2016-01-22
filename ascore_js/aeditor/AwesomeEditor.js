@@ -88,7 +88,7 @@ export default class AwesomeEditor extends Component {
   }
 
   triggerSuccessEvent() {
-    //noinspection JSUnresolvedVariable
+    // noinspection JSUnresolvedVariable, JSClosureCompilerSyntax
     this.refs.componentNode.dispatchEvent(
       new Event('execute', { bubbles: true })
     );

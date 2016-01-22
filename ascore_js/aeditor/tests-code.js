@@ -33,11 +33,11 @@ const testCases = [
 
 for (const testCase of testCases) {
   if (typeof testCase.expectScore !== 'undefined') {
-    if (testedFunc(testCase.data) == testCase.expectScore) {
+    if (testedFunc(testCase.data) === testCase.expectScore) {
       continue;
     }
   } else if (typeof testCase.avoidScore !== 'undefined') {
-    if (testedFunc(testCase.data) != testCase.avoidScore) {
+    if (testedFunc(testCase.data) !== testCase.avoidScore) {
       continue;
     }
   }
