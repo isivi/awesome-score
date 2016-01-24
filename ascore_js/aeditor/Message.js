@@ -25,7 +25,7 @@ export default class Message extends Component {
     return (
       <div className={messageClass}>
         <div className="relative-container">
-          <span className="close" onClick={this.props.handleClose}>x</span>
+          <span className="close" onClick={this.props.handleClose}></span>
           {this.props.message}
         </div>
       </div>
