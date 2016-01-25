@@ -1,6 +1,7 @@
 .idea/
 *.pyc
 *.sqlite3
+dev/
 env/
 node_modules/
 npm-debug.log

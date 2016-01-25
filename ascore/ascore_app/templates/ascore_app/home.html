@@ -1,13 +1,17 @@
 {% load render_bundle from webpack_loader %}
-{% load static %}
+{% load compress static %}
 <!DOCTYPE html>
 <html>
     <head>
         <meta charset="UTF-8">
         <title>Awesome Score</title>
         <link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,600&subset=latin,latin-ext' rel='stylesheet' type='text/css' />
-        <link type="text/less" href="{% static "ascore_app/css/base.less" %}" rel="stylesheet">
-        <script type="text/javascript" src="{% static "ascore_app/js/less.js" %}"></script>
+        {% compress css %}
+            <link type="text/less" href="{% static "ascore_app/css/base.less" %}" rel="stylesheet">
+        {% endcompress css %}
+        {% if not ascore_settings.COMPRESS_ENABLED %}
+            <script type="text/javascript" src="{% static "ascore_app/js/less.js" %}"></script>
+        {% endif %}
     </head>
     <body>
         <div id="idea-block">
@@ -25,7 +29,7 @@
             </div>
         <div>
         <div id="congrats-block">
-            <span class="text1">Gratulacje!</span><br/>
+            <span class="text1">To dopiero początek!</span><br/>
             <span class="text2">
                 Prawdziwej rewolucji możemy dokonać wspólnie.<br/>
                 Zmieniaj z nami na lepsze rynek pracy i przy tym zarabiaj.

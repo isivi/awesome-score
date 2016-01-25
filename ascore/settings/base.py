@@ -26,6 +26,10 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    # Compressor
+    'compressor',
+
+    # Webpack
     'webpack_loader',
 
     'ascore.ascore_app',
@@ -86,6 +90,59 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'public', 'static')
 
 STATIC_URL = '/static/'
 
+STATICFILES_FINDERS = (
+    # compressor won't work without it when django.contrib.staticfiles enabled
+    'compressor.finders.CompressorFinder',
+)
+
+# Templates
+
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'APP_DIRS': False,
+        'OPTIONS': {
+            'context_processors': (
+                # django
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.template.context_processors.debug',
+                'django.template.context_processors.i18n',
+                'django.template.context_processors.media',
+                'django.template.context_processors.static',
+                'django.template.context_processors.tz',
+                'django.contrib.messages.context_processors.messages',
+                # ascore
+                'ascore.context_processors.ascore_settings',
+            ),
+
+            'loaders': (
+                'django.template.loaders.filesystem.Loader',
+                'django.template.loaders.app_directories.Loader',
+            ),
+        }
+    },
+]
+
+
+# Compressor
+
+COMPRESS_ENABLED = False
+COMPRESS_OFFLINE = False
+COMPRESS_URL = STATIC_URL
+COMPRESS_ROOT = STATIC_ROOT
+COMPRESS_OUTPUT_DIR = 'compressed'
+COMPRESS_PRECOMPILERS = ()  # pre-compiling only in production and while testing, compilers set in dedicated settings
+COMPRESS_CSS_FILTERS = ('compressor.filters.css_default.CssAbsoluteFilter',)  # default, better filters only in prod
+COMPRESS_JS_FILTERS = ()  # default, better filters only in prod
+
+PROD_LESS_PRECOMPILER = (('text/less', 'lessc {infile} {outfile}'),)  # suggested prod settings
+PROD_COMPRESS_CSS_FILTERS = ('compressor.filters.css_default.CssAbsoluteFilter',  # suggested prod settings
+                             'compressor.filters.cssmin.rCSSMinFilter')
+PROD_COMPRESS_JS_FILTERS = ('compressor.filters.jsmin.rJSMinFilter',)  # suggested prod settings
+
+
+# Webpack
 
 WEBPACK_LOADER = {
     'DEFAULT': {
