@@ -14,6 +14,17 @@
         {% if not ascore_settings.COMPRESS_ENABLED %}
             <script type="text/javascript" src="{% static "ascore_app/js/less.js" %}"></script>
         {% endif %}
+        <script type="text/javascript" src="{% static "ascore_app/js/jquery-1.11.0.min.js" %}"></script>
+        <script>
+            window.addEventListener('codesuccess', function() {
+                $congratsBlock = $("#congrats-block");
+                $congratsBlock.show();
+                $("#email-block").show();
+                $('html, body').animate({
+                    scrollTop: $congratsBlock.offset().top
+                }, 2000);
+            })
+        </script>
     </head>
     <body>
         <div id="idea-block">
@@ -29,14 +40,14 @@
                 <div id="aeditor-root"></div>
             </div>
         <div>
-        <div id="congrats-block">
+        <div id="congrats-block" style="display: none;">
             <span class="text1">To dopiero początek!</span><br/>
             <span class="text2">
                 Wcale nie musisz rezygnować z pensji,<br/>
                 żeby zmieniać świat na co dzień.
             </span>
         </div>
-        <div id="email-block">
+        <div id="email-block" style="display: none;">
             <div class="email-text">
                 Napisz wiadomość na
                 <a href="mailto:future@isivi.pl?Subject=Rewolucja%20z%20isivi" target="_top">
