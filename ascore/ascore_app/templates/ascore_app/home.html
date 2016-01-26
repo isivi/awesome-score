@@ -9,6 +9,7 @@
         {% compress css %}
             <link type="text/less" href="{% static "ascore_app/css/base.less" %}" rel="stylesheet">
         {% endcompress css %}
+        {% render_bundle 'aeditor' 'css' %}
         {% if not ascore_settings.COMPRESS_ENABLED %}
             <script type="text/javascript" src="{% static "ascore_app/js/less.js" %}"></script>
         {% endif %}
@@ -25,7 +26,6 @@
         <div id="laptop-block">
             <div id="laptop-background">
                 <div id="aeditor-root"></div>
-                {% render_bundle 'aeditor' %}
             </div>
         <div>
         <div id="congrats-block">
@@ -56,5 +56,6 @@
                 </div>
             </div>
         </div>
+        {% render_bundle 'aeditor' 'js' %}
     </body>
 </html>
