@@ -91,6 +91,9 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'public', 'static')
 STATIC_URL = '/static/'
 
 STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    
     # compressor won't work without it when django.contrib.staticfiles enabled
     'compressor.finders.CompressorFinder',
 )
