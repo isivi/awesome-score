@@ -98,6 +98,7 @@ STATICFILES_FINDERS = (
     'compressor.finders.CompressorFinder',
 )
 
+
 # Templates
 
 TEMPLATES = [
@@ -126,6 +127,12 @@ TEMPLATES = [
         }
     },
 ]
+
+
+# Email
+
+EMAIL_HOST = 'localhost'
+EMAIL_PORT = 25
 
 
 # Compressor

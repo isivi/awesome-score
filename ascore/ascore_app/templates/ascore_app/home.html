@@ -5,7 +5,8 @@
     <head>
         <meta charset="UTF-8">
         <title>Awesome Score</title>
-        <link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,600&subset=latin,latin-ext' rel='stylesheet' type='text/css' />
+        <link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,600&subset=latin,latin-ext'
+              rel='stylesheet' type='text/css' />
         {% compress css %}
             <link type="text/less" href="{% static "ascore_app/css/base.less" %}" rel="stylesheet">
         {% endcompress css %}
@@ -38,10 +39,13 @@
         <div id="email-block">
             <div class="email-text">
                 Napisz wiadomość na
-                <a href="mailto:future@isivi.pl?Subject=Rewolucja%20z%20isivi" target="_top">future@isivi.pl</a><br/>
+                <a href="mailto:future@isivi.pl?Subject=Rewolucja%20z%20isivi" target="_top">
+                    future@isivi.pl
+                </a><br/>
                 lub po prostu zostaw swój e-mail, a my odezwiemy się do Ciebie!
             </div>
-            <form action="">
+            <form action="{% url 'send_email' %}" method="post">
+                {% csrf_token %}
                 {{ form.email }}
                 <button type="submit">PRZEŚLIJ</button>
             </form>
