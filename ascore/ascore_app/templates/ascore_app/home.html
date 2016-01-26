@@ -39,12 +39,15 @@
             <div class="email-text">
                 Napisz wiadomość na
                 <a href="mailto:future@isivi.pl?Subject=Rewolucja%20z%20isivi" target="_top">future@isivi.pl</a><br/>
-                lub po prostu zostaw swój e-mail, a my  odezwiemy się do Ciebie!
+                lub po prostu zostaw swój e-mail, a my odezwiemy się do Ciebie!
             </div>
-            <form>
-                <input type="text" placeholder="Wpisz adres email..."></input>
-                <button>PRZEŚLIJ</button>
+            <form action="">
+                {{ form.email }}
+                <button type="submit">PRZEŚLIJ</button>
             </form>
+            <div class="email-text">
+                Dzięki! Wkrótce dowiesz się o co chodzi.
+            </div>
             <div class="isivi-logo"></div>
         </div>
         <div id="footer">
