@@ -1,17 +1,14 @@
-var baseConfig = require('./base.babel');
+var baseConfig = require('./base.config.js');
 var webpack = require('webpack');
 var BundleTracker = require('webpack-bundle-tracker');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
-var path = require('path');
 
-// Passed from base configs baseDir
-var baseDir = baseConfig.localConsts.baseDir;
 
 baseConfig.module.loaders.push(
   // CSS
   {
     test: /\.css$/,
-    loader: ExtractTextPlugin.extract("style-loader", "css-loader"),
+    loader: ExtractTextPlugin.extract("style-loader", "css-loader")
     // As for now importing also style of any external module, uncomment to change it
     //include: path.join(baseDir, 'ascore_js')
   },
@@ -19,7 +16,7 @@ baseConfig.module.loaders.push(
   // LESS
   {
     test: /\.less$/,
-    loader: ExtractTextPlugin.extract("style-loader", "css-loader!less-loader"),
+    loader: ExtractTextPlugin.extract("style-loader", "css-loader!less-loader")
     // As for now importing also style of any external module, uncomment to change it
     //include: path.join(baseDir, 'ascore_js')
   }
