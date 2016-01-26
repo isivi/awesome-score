@@ -32,7 +32,7 @@ export default class CodeAnimation {
   }
 
   stop() {
-    this.updateCodeCallback(this.code.finalCode);
+    this.updateCodeCallback(this.code.final);
     clearInterval(this.intervalID);
     this.promise.resolve();
   }

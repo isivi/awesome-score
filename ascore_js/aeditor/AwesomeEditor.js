@@ -24,6 +24,7 @@ import 'codemirror/addon/fold/foldgutter.css';
 import 'codemirror/addon/fold/brace-fold';
 
 
+
 export default class AwesomeEditor extends Component {
   static propTypes = {};
   state = {
@@ -37,6 +38,7 @@ export default class AwesomeEditor extends Component {
     messageVisible: false
   };
   executingDelay = 400;
+  maxColumns = 88;
 
   updateCode(newCode) {
     this.setState({
@@ -94,7 +96,8 @@ export default class AwesomeEditor extends Component {
   }
   normalizeCodeBeforeAnimation() {
     const { text1: successCode, text2: finalCode } = normalizeTexts({
-      text1: this.state.successCode, text2: finalCodeConst
+      text1: this.state.successCode, text2: finalCodeConst,
+      cols: this.maxColumns
     });
     this.setState({ successCode, finalCode });
   }
