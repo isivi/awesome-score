@@ -43,11 +43,5 @@ module.exports = {
   localConsts: {
     production: process.env.NODE_ENV === 'production',
     baseDir: baseDir
-  },
-
-  // Faking fs module for compilation, webpack known issue.
-  // https://github.com/webpack/jade-loader/issues/8#issuecomment-55568520
-  node: {
-    fs: "empty"
   }
 };
