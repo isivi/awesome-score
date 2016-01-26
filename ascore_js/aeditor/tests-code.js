@@ -10,10 +10,10 @@ const testCases = [
   // none
   { data: { paidVacation: 31, hammocksInOffice: true, freeLunch: true },
     avoidScore: 0,
-    error: 'no awesomeness? you can find it, it\'s there' },
+    error: 'don’t you underestimate some offers?' },
   { data: { paidVacation: 0, hammocksInOffice: false, freeLunch: false },
     expectScore: 0,
-    error: 'so yous say that even crappy jobs are awesome...' },
+    error: 'don’t you underestimate some offers?' },
 
   // vacation
   { data: { paidVacation: 29, hammocksInOffice: false, freeLunch: false },
@@ -21,7 +21,7 @@ const testCases = [
     error: 'so you think these are decent vacations?' },
   { data: { paidVacation: 31, hammocksInOffice: false, freeLunch: false },
     expectScore: (score) => score >= 1,
-    error: 'didn\'t you forget about vacations?' },
+    error: 'remember, vacations are always a good idea' },
   // hammocks
   { data: { paidVacation: 0, hammocksInOffice: true, freeLunch: false },
     expectScore: (score) => score >= 1,
@@ -34,7 +34,7 @@ const testCases = [
   // all
   { data: { paidVacation: 31, hammocksInOffice: true, freeLunch: true },
     expectScore: (score) => score >= 3,
-    error: 'you aim high, that\'s great, but better check your code' }
+    error: 'don’t you underestimate some offers?' }
 ];
 
 for (const { expectScore, avoidScore, data, error } of testCases) {

@@ -24,7 +24,6 @@ import 'codemirror/addon/fold/foldgutter.css';
 import 'codemirror/addon/fold/brace-fold';
 
 
-
 export default class AwesomeEditor extends Component {
   static propTypes = {};
   state = {
@@ -74,7 +73,7 @@ export default class AwesomeEditor extends Component {
   showResultMessage(executionResult) {
     let message;
     if (executionResult.success) {
-      message = 'Well done';
+      message = 'Well done! You just saved 54 minutes for every job seeker!';
     } else {
       message = `${executionResult.errorName}: ${executionResult.errorMessage}`;
     }
