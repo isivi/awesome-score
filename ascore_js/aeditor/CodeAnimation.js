@@ -14,6 +14,7 @@ export default class CodeAnimation {
 
   start() {
     this.intervalID = setInterval(this.tick.bind(this), this.interval);
+    return new Promise(this.promiseExecutor.bind(this));
   }
 
   tick() {
@@ -33,5 +34,10 @@ export default class CodeAnimation {
   stop() {
     this.updateCodeCallback(this.code.finalCode);
     clearInterval(this.intervalID);
+    this.promise.resolve();
+  }
+
+  promiseExecutor(resolve, reject) {
+    this.promise = { resolve, reject };
   }
 }

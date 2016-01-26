@@ -1,3 +1,6 @@
+import Promise from 'es6-promise';
+Promise.polyfill();
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import AwesomeEditor from './AwesomeEditor';

@@ -58,7 +58,6 @@ export default class AwesomeEditor extends Component {
     if (success) {
       this.setState({ success, successCode: this.state.code });
       this.animateSuccess();
-      this.triggerSuccessEvent();
     }
     this.showResultMessage(executionResult);
   }
@@ -90,7 +89,7 @@ export default class AwesomeEditor extends Component {
   triggerSuccessEvent() {
     // noinspection JSUnresolvedVariable, JSClosureCompilerSyntax
     this.refs.componentNode.dispatchEvent(
-      new Event('execute', { bubbles: true })
+      new Event('codesuccess', { bubbles: true })
     );
   }
   normalizeCodeBeforeAnimation() {
@@ -101,7 +100,9 @@ export default class AwesomeEditor extends Component {
   }
   animateSuccess() {
     this.normalizeCodeBeforeAnimation();
-    new CodeAnimation(this.updateCode.bind(this), this.state).start();
+    new CodeAnimation(this.updateCode.bind(this), this.state)
+      .start()
+      .then(this.triggerSuccessEvent.bind(this));
   }
 
 
