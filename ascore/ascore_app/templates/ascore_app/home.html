@@ -14,22 +14,11 @@
         {% if not ascore_settings.COMPRESS_ENABLED %}
             <script type="text/javascript" src="{% static "ascore_app/js/less.js" %}"></script>
         {% endif %}
-        <script type="text/javascript" src="{% static "ascore_app/js/jquery-1.11.0.min.js" %}"></script>
         <script>
             var djangoTemplateContext = {
                 csrftoken: '{{ csrf_token }}',
                 formSubmitUrl: '{% url "send_email" %}'
             };
-
-            window.addEventListener('codesuccess', function() {
-                $congratsBlock = $("#congrats-block");
-                $congratsBlock.show();
-                $("#email-block").show();
-                $("#isivi-logo").show();
-                $('html, body').animate({
-                    scrollTop: $congratsBlock.offset().top
-                }, 2000);
-            })
         </script>
     </head>
     <body>
@@ -48,19 +37,12 @@
             </div>
         </div>
 
-        <div id="congrats-block" style="display: none;">
-            <div class="text1">To dopiero początek!</div>
-            <div class="text2">
-                Wcale nie musisz rezygnować z pensji,<br/>
-                żeby zmieniać świat na co dzień.
-            </div>
-        </div>
 
-        <div id="email-block" style="display: none;">
+        <div id="email-root">
 
         </div>
 
-        <div id="isivi-logo" style="display: none;"></div>
+
 
         <div id="footer">
             <div id="footer-wrapper">

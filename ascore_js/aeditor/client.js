@@ -12,5 +12,6 @@ const editorMountNode = document.getElementById('aeditor-root');
 ReactDOM.render(<AwesomeEditor/>, editorMountNode);
 
 // noinspection NodeModulesDependencies
-const emailBlockMountNode = document.getElementById('email-block');
+const emailBlockMountNode = document.getElementById('email-root');
 ReactDOM.render(<EmailBlock/>, emailBlockMountNode);
+
