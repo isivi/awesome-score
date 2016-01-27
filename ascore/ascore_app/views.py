@@ -26,7 +26,7 @@ def send_email(request):
 
         for to in RECIPIENTS:
             email = EmailMessage()
-            email.subject = u'Informacja o naprawieniu usterki'
+            email.subject = u'Nowe zgłoszenie w rekrutacji IT'
             email.body = u'Nowe zgłoszenie w rekrutacji IT: ' + user_email
             email.content_subtype = 'html'
             email.from_email = u'isivi.pl <admin@isivi.pl>'

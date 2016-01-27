@@ -41,26 +41,30 @@
             </div>
         <div>
         <div id="congrats-block" style="display: none;">
-            <span class="text1">To dopiero początek!</span><br/>
-            <span class="text2">
+            <div class="text1">To dopiero początek!</div>
+            <div class="text2">
                 Wcale nie musisz rezygnować z pensji,<br/>
                 żeby zmieniać świat na co dzień.
-            </span>
+            </div>
         </div>
         <div id="email-block" style="display: none;">
             <div class="email-text">
-                Napisz wiadomość na
-                <a href="mailto:future@isivi.pl?Subject=Rewolucja%20z%20isivi" target="_top">
-                    future@isivi.pl
-                </a><br/>
-                lub po prostu zostaw swój e-mail, a my odezwiemy się do Ciebie!
+                <div class="text1">
+                    Napisz wiadomość na
+                    <a href="mailto:future@isivi.pl?Subject=Rewolucja%20z%20isivi" target="_top">
+                        future@isivi.pl
+                    </a><br/>
+                </div>
+                <div class="text2">
+                    lub po prostu zostaw swój e-mail, a my odezwiemy się do Ciebie!
+                </div>
             </div>
             <form action="{% url 'send_email' %}" method="post">
                 {% csrf_token %}
                 {{ form.email }}
                 <button type="submit">PRZEŚLIJ</button>
             </form>
-            <div class="email-text">
+            <div class="email-text" style="display: none;">
                 Dzięki! Wkrótce dowiesz się o co chodzi.
             </div>
             <div class="isivi-logo"></div>
