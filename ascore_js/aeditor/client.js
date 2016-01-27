@@ -4,8 +4,13 @@ Promise.polyfill();
 import React from 'react';
 import ReactDOM from 'react-dom';
 import AwesomeEditor from './AwesomeEditor';
+import EmailBlock from './EmailBlock';
 import './client.less';
 
 // noinspection NodeModulesDependencies
-const mountNode = document.getElementById('aeditor-root');
-ReactDOM.render(<AwesomeEditor/>, mountNode);
+const editorMountNode = document.getElementById('aeditor-root');
+ReactDOM.render(<AwesomeEditor/>, editorMountNode);
+
+// noinspection NodeModulesDependencies
+const emailBlockMountNode = document.getElementById('email-block');
+ReactDOM.render(<EmailBlock/>, emailBlockMountNode);

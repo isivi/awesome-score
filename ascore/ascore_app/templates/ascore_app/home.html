@@ -16,10 +16,16 @@
         {% endif %}
         <script type="text/javascript" src="{% static "ascore_app/js/jquery-1.11.0.min.js" %}"></script>
         <script>
+            var djangoTemplateContext = {
+                csrftoken: '{{ csrf_token }}',
+                formSubmitUrl: '{% url "send_email" %}'
+            };
+
             window.addEventListener('codesuccess', function() {
                 $congratsBlock = $("#congrats-block");
                 $congratsBlock.show();
                 $("#email-block").show();
+                $("#isivi-logo").show();
                 $('html, body').animate({
                     scrollTop: $congratsBlock.offset().top
                 }, 2000);
@@ -35,11 +41,13 @@
                 </div>
             </div>
         </div>
+
         <div id="laptop-block">
             <div id="laptop-background">
                 <div id="aeditor-root"></div>
             </div>
-        <div>
+        </div>
+
         <div id="congrats-block" style="display: none;">
             <div class="text1">To dopiero początek!</div>
             <div class="text2">
@@ -47,28 +55,13 @@
                 żeby zmieniać świat na co dzień.
             </div>
         </div>
+
         <div id="email-block" style="display: none;">
-            <div class="email-text">
-                <div class="text1">
-                    Napisz wiadomość na
-                    <a href="mailto:future@isivi.pl?Subject=Rewolucja%20z%20isivi" target="_top">
-                        future@isivi.pl
-                    </a><br/>
-                </div>
-                <div class="text2">
-                    lub po prostu zostaw swój e-mail, a my odezwiemy się do Ciebie!
-                </div>
-            </div>
-            <form action="{% url 'send_email' %}" method="post">
-                {% csrf_token %}
-                {{ form.email }}
-                <button type="submit">PRZEŚLIJ</button>
-            </form>
-            <div class="email-text" style="display: none;">
-                Dzięki! Wkrótce dowiesz się o co chodzi.
-            </div>
-            <div class="isivi-logo"></div>
+
         </div>
+
+        <div id="isivi-logo" style="display: none;"></div>
+
         <div id="footer">
             <div id="footer-wrapper">
                 <div class="copy">
