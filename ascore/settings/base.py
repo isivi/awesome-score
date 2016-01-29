@@ -135,6 +135,70 @@ EMAIL_HOST = 'localhost'
 EMAIL_PORT = 25
 
 
+# Logs
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+
+    'filters': {
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse',
+        },
+    },
+
+    'formatters': {
+        'generic': {
+            'format': '[%(asctime)s] [%(process)d] [%(levelname)s] %(message)s',
+            'datefmt': '%Y-%m-%d %H:%M:%S',
+            'class': 'logging.Formatter',
+        },
+    },
+
+    'handlers': {
+        # production handlers
+        'mail_admins': {
+            'level': 'ERROR',
+            'filters': ['require_debug_false'],
+            'class': 'django.utils.log.AdminEmailHandler'
+        },
+        'console_stderr_generic': {
+            'level': 'DEBUG',
+            'filters': ['require_debug_false'],
+            'class': 'logging.StreamHandler',
+            'formatter': 'generic',
+        },
+        'console_stdout_plain': {
+            'level': 'DEBUG',
+            'filters': ['require_debug_false'],
+            'class': 'ascore.utils.log.StdoutStreamHandler',
+        }
+    },
+
+    'loggers': {
+        # production loggers
+        # django
+        'django.request': {
+            'handlers': ['console_stderr_generic', 'mail_admins'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+        'django.security': {
+            'handlers': ['mail_admins'],
+            'level': 'ERROR',
+            'propagate': False,
+        },
+
+        # gunicorn - all access entries
+        'gunicorn.access': {
+            'handlers': ['console_stdout_plain'],
+            'level': 'INFO',
+            'propagate': True
+        },
+    }
+}
+
+
 # Compressor
 
 COMPRESS_ENABLED = False
@@ -167,4 +231,3 @@ WEBPACK_LOADER_PROD = {
         'STATS_FILE': os.path.join(BASE_DIR, 'var/webpack_stats/', 'prod.json'),
     }
 }
-

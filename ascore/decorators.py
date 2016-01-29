@@ -1,3 +1,4 @@
+import re
 from functools import update_wrapper
 
 from django.http import HttpResponse
