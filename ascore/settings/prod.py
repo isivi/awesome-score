@@ -1,4 +1,4 @@
-from ..utils import update_recursive
+from ascore.utils.dict import update_recursive
 from .base import *
 
 DEBUG = False
