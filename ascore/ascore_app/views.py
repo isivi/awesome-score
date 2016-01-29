@@ -20,6 +20,7 @@ def home(request):
 @require_POST
 def send_email(request):
     RECIPIENTS = ['konrad@isivi.pl', 'tomek@isivi.pl']
+    response = {'success': False}
 
     email_form = EmailForm(request.POST)
     if email_form.is_valid():
@@ -34,4 +35,6 @@ def send_email(request):
             email.to = [ to ]
             email.send()
 
-    return JsonResponse({'success': True})
+        response['success'] = True
+
+    return JsonResponse(response)
