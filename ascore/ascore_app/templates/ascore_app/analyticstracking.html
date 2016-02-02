@@ -2,8 +2,13 @@
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  })(window,document,'script','//www.google-analytics.com/analytics{% if ascore_settings.DEBUG %}_debug{% endif %}.js','ga');
 
   ga('create', 'UA-49700474-3', 'auto');
   ga('send', 'pageview');
+
+  // extra events
+  setTimeout(function() { ga('send', 'event', 'Stay on site', '15 seconds', 'Stay 15s')}, 15000);
+  setTimeout(function() { ga('send', 'event', 'Stay on site', '30 seconds', 'Stay 30s')}, 30000);
+  setTimeout(function() { ga('send', 'event', 'Stay on site', '60 seconds', 'Stay 60s')}, 60000);
 </script>
