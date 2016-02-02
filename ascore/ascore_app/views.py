@@ -5,8 +5,6 @@ from ascore.decorators import with_template
 
 from django.core.mail.message import EmailMessage
 from django.http import JsonResponse
-from django.shortcuts import render, redirect
-from django.template.response import TemplateResponse
 from django.views.decorators.http import require_POST
 
 
@@ -19,7 +17,7 @@ def home(request):
 
 @require_POST
 def send_email(request):
-    RECIPIENTS = ['konrad@isivi.pl', 'tomek@isivi.pl']
+    RECIPIENTS = ['konrad.sloniewski@gmail.com', 'tk.glowka@gmail.com']
     response = {'success': False}
 
     email_form = EmailForm(request.POST)
