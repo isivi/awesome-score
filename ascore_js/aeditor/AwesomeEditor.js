@@ -71,17 +71,20 @@ export default class AwesomeEditor extends Component {
     });
   }
   showResultMessage(executionResult) {
-    let message;
+    let message, eventName;
     if (executionResult.success) {
       message = 'Well done! You just saved 54 minutes for every job seeker!';
+      eventName = 'Submit success';
     } else {
       message = `${executionResult.errorName}: ${executionResult.errorMessage}`;
+      eventName = 'Submit failure';
     }
     this.setState({
       executing: false,
       messageVisible: true,
       message
     });
+    ga('send', 'event', 'Awesome Editor', eventName, message);
   }
   closeMessage() {
     this.setState({ messageVisible: false });

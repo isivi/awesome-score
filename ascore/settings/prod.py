@@ -5,6 +5,7 @@ DEBUG = False
 
 ALLOWED_HOSTS += [
     'ascore.isivi.pl',
+    'createfuture.isivi.pl',
 ]
 
 
