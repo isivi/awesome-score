@@ -8,6 +8,7 @@ export default class CodeExecutor {
   constructor(codeRaw, callback) {
     this.createIFrame();
     this.createListener();
+    this.executed = false;
     this.codeRaw = codeRaw;
     this.callback = callback;
   }
@@ -36,7 +37,7 @@ export default class CodeExecutor {
     try {
       codeRawES5 = babelTransform(this.codeRaw, { presets: ['es2015'] }).code;
     } catch (err) {
-      return this.callback({
+      return this.invokeCallback({
         success: false,
         errorMessage: err.message,
         errorName: err.name });
@@ -61,19 +62,11 @@ export default class CodeExecutor {
       }, '*')
     `;
 
+    //setTimeout(this.timeoutCall.bind(this), 3000);
     this.iframe.srcdoc = `<script type="text/javascript">${wrappedCode}</script>`;
   }
 
   receivePostExecuteMessage(event) {
-    try {
-      this.invokeCallback(event);
-    } finally {
-      this.removeIFrame();
-      this.removeListener();
-    }
-  }
-
-  invokeCallback(event) {
     const eventData = event.data;
 
     if (eventData.name !== 'codeExecuted') {
@@ -81,7 +74,29 @@ export default class CodeExecutor {
     }
 
     const eventBody = eventData.body;
-    this.callback(eventBody);
+    this.invokeCallback(eventBody);
+  }
+
+  invokeCallback(result) {
+    if (this.executed) {
+      return;
+    }
+    this.executed = true;
+    try {
+      this.callback(result);
+    } finally {
+      this.removeIFrame();
+      this.removeListener();
+    }
+  }
+  timeoutCall() {
+    console.log('Timeout!');
+    this.invokeCallback({
+      success: false,
+      errorMessage: 'Ups, it looks like infinite statement.',
+      errorName: 'TimeoutError'
+    })
+
   }
 
 }
