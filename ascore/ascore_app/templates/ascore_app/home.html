@@ -10,14 +10,15 @@
         ______°_____________________________________________
         -->
         <title>Awesome Score</title>
+        <link rel="image_src" href="{% static 'ascore_app/img/fb4-01.jpg' %}" />
         <link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,600&subset=latin,latin-ext'
               rel='stylesheet' type='text/css' />
         {% compress css %}
-            <link type="text/less" href="{% static "ascore_app/css/base.less" %}" rel="stylesheet">
+            <link type="text/less" href="{% static 'ascore_app/css/base.less' %}" rel="stylesheet">
         {% endcompress css %}
         {% render_bundle 'aeditor' 'css' %}
         {% if not ascore_settings.COMPRESS_ENABLED %}
-            <script type="text/javascript" src="{% static "ascore_app/js/less.js" %}"></script>
+            <script type="text/javascript" src="{% static 'ascore_app/js/less.js' %}"></script>
         {% endif %}
         <script>
             var djangoTemplateContext = {
