@@ -15,6 +15,7 @@
     "history": "^1.16.0",
     "isomorphic-fetch": "^2.2.1",
     "keycode": "^2.1.0",
+    "loop-protect": "git://github.com/glowka/loop-protect.git",
     "query-string": "^3.0.0",
     "react": "^0.14.6",
     "react-codemirror": "^0.2.5",

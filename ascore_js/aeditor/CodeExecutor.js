@@ -1,6 +1,8 @@
 import { transform as babelTransform } from 'babel-standalone';
+import loopProtect from 'loop-protect';
 
 // Process module normally but then return it raw, not executed
+const loopProtectRaw = require('raw!loop-protect');
 const testsCodeRawES5 = require('raw!./tests-code.js');
 
 
@@ -8,7 +10,6 @@ export default class CodeExecutor {
   constructor(codeRaw, callback) {
     this.createIFrame();
     this.createListener();
-    this.executed = false;
     this.codeRaw = codeRaw;
     this.callback = callback;
   }
@@ -29,6 +30,7 @@ export default class CodeExecutor {
   }
 
   removeIFrame() {
+
     this.iframe.parentNode.removeChild(this.iframe);
   }
 
@@ -43,10 +45,21 @@ export default class CodeExecutor {
         errorName: err.name });
     }
 
+    const codeRawES5LoopProtected = loopProtect(codeRawES5);
+
     const wrappedCode = `
       var caughtError = null;
       try {
-        ${codeRawES5}
+        // Include loopProtect code
+        ${loopProtectRaw}
+        loopProtect.hit = function() {
+          throw new EvalError('ups, it looks like an infinite statement.')
+        };
+
+        // Write the tested code
+        ${codeRawES5LoopProtected}
+
+        // Run tests
         ${testsCodeRawES5}
       } catch(err) {
         caughtError = err;
@@ -62,7 +75,6 @@ export default class CodeExecutor {
       }, '*')
     `;
 
-    //setTimeout(this.timeoutCall.bind(this), 3000);
     this.iframe.srcdoc = `<script type="text/javascript">${wrappedCode}</script>`;
   }
 
@@ -78,25 +90,12 @@ export default class CodeExecutor {
   }
 
   invokeCallback(result) {
-    if (this.executed) {
-      return;
-    }
-    this.executed = true;
     try {
       this.callback(result);
     } finally {
       this.removeIFrame();
       this.removeListener();
     }
-  }
-  timeoutCall() {
-    console.log('Timeout!');
-    this.invokeCallback({
-      success: false,
-      errorMessage: 'Ups, it looks like infinite statement.',
-      errorName: 'TimeoutError'
-    })
-
   }
 
 }
