@@ -8,6 +8,9 @@ if (!testedFunc) {
 
 const testCases = [
   // none
+    { data: { paidVacation: 31, hammocksInOffice: true, freeLunch: true },
+    expectScore: (score) => (typeof score !== "undefined" && score !== null),
+    error: 'anything is better than nothing.' },
   { data: { paidVacation: 31, hammocksInOffice: true, freeLunch: true },
     avoidScore: (score) => (score <= 0),
     error: 'don’t you underestimate some offers?' },
