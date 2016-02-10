@@ -2,9 +2,11 @@
 
 from ascore.ascore_app.forms import EmailForm
 from ascore.decorators import with_template
+from ascore.utils.nostats import delete_cookie, set_cookie
 
 from django.core.mail.message import EmailMessage
 from django.http import JsonResponse
+from django.shortcuts import redirect
 from django.views.decorators.http import require_POST
 
 
@@ -36,3 +38,17 @@ def send_email(request):
         response['success'] = True
 
     return JsonResponse(response)
+
+
+# Stats
+
+def no_stats(request):
+    response = redirect('home')
+    set_cookie(response)
+    return response
+
+
+def stats(request):
+    response = redirect('home')
+    delete_cookie(response)
+    return response

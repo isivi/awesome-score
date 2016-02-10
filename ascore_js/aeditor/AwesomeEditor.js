@@ -39,6 +39,13 @@ export default class AwesomeEditor extends Component {
   executingDelay = 400;
   maxColumns = 88;
 
+  gaSafe() {
+    if (typeof ga !== 'undefined') {
+        // send event args: 'send', 'event', event category, event action, event name, event label
+        ga.apply(this, arguments);
+    }
+  }
+
   updateCode(newCode) {
     this.setState({
       code: newCode
@@ -84,7 +91,7 @@ export default class AwesomeEditor extends Component {
       messageVisible: true,
       message
     });
-    ga('send', 'event', 'Awesome Editor', eventName, message);
+    this.gaSafe('send', 'event', 'Awesome Editor', eventName, message);
   }
   closeMessage() {
     this.setState({ messageVisible: false });

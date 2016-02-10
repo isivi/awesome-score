@@ -3,6 +3,9 @@ from .base import *
 
 DEBUG = False
 
+FUNCTIONS['ANALYTICS_TRACKING_SCRIPT'] = True
+FUNCTIONS['HOTJAR_TRACKING_SCRIPT'] = True
+
 ALLOWED_HOSTS += [
     'ascore.isivi.pl',
     'createfuture.isivi.pl',

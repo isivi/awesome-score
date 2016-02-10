@@ -10,6 +10,13 @@ SECRET_KEY = '^a%w=!-az5#)pw#$(qfujdta8u=^0&%759+_l+hp)$n#o%r#5_'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+# App functions
+FUNCTIONS = {
+    # Scripts
+    'ANALYTICS_TRACKING_SCRIPT': False,
+    'HOTJAR_TRACKING_SCRIPT': False,
+}
+
 ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1'
@@ -100,6 +107,7 @@ TEMPLATES = [
                 'django.template.context_processors.static',
                 'django.template.context_processors.tz',
                 'django.contrib.messages.context_processors.messages',
+
                 # ascore
                 'ascore.context_processors.ascore_settings',
             ),
@@ -181,6 +189,11 @@ LOGGING = {
         },
     }
 }
+
+
+# No Stats functionality
+
+NO_STATS_COOKIE_NAME = 'nostats'
 
 
 # Compressor

@@ -56,7 +56,11 @@
             </div>
         </div>
         {% render_bundle 'aeditor' 'js' %}
-        {% include 'ascore_app/analytics_tracking.html' %}
-        {% include 'ascore_app/hotjar_tracking.html' %}
+        {% if ascore_settings.FUNCTIONS.ANALYTICS_TRACKING_SCRIPT and ascore_settings.is_stats_request %}
+            {% include 'ascore_app/analytics_tracking.html' %}
+        {% endif %}
+        {% if ascore_settings.FUNCTIONS.HOTJAR_TRACKING_SCRIPT and ascore_settings.is_stats_request %}
+            {% include 'ascore_app/hotjar_tracking.html' %}
+        {% endif %}
     </body>
 </html>
