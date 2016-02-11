@@ -20,6 +20,14 @@ export default class EmailBlock extends Component {
     visibleEmailForm: false,
     email: ''
   };
+
+  gaSafe() {
+    if (typeof ga !== 'undefined') {
+        // send event args: 'send', 'event', event category, event action, event name, event label
+        ga.apply(this, arguments);
+    }
+  }
+
   componentDidMount() {
     window.addEventListener('codesuccess', this.handleCodeSuccessBound);
   }
@@ -62,6 +70,7 @@ export default class EmailBlock extends Component {
     .then(jsonResponse => {
       if (jsonResponse.success) {
         this.setState({ visibleEmailForm: false });
+        this.gaSafe('send', 'event', 'Email Block', 'email send', 'email has been send');
       }
     });
   }
